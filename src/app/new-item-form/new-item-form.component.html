@@ -1,0 +1,42 @@
+<div class="modal" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar Nuevo Elemento</h5>
+        <button type="button" class="btn-close" (click)="closeForm()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="name" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="name" formControlName="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="date" class="form-label">Fecha</label>
+            <input type="date" class="form-control" id="date" formControlName="date" required>
+          </div>
+          <div class="mb-3">
+            <label for="type" class="form-label">Tipo</label>
+            <select class="form-select" id="type" formControlName="type" required>
+              <option value="file">Archivo</option>
+              <option value="folder">Carpeta</option>
+            </select>
+          </div>
+          <div class="mb-3" *ngIf="itemForm.get('type')?.value === 'file'">
+            <label for="parentId" class="form-label">Carpeta padre</label>
+            <select class="form-select" id="parentId" formControlName="parentId">
+              <option value="">Raíz</option>
+              <option *ngFor="let folder of folders" [value]="folder.id">{{ folder.name }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="owners" class="form-label">Dueños</label>
+            <input type="text" class="form-control" id="owners" formControlName="owners">
+            <small class="form-text text-muted">Ingrese los dueños separados por comas</small>
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="!itemForm.valid">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

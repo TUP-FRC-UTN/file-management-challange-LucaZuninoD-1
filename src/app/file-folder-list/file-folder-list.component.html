@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Lista de Archivos y Carpetas</h2>
+  <button class="btn btn-primary mb-3" (click)="openNewItemForm()">Nuevo</button>
+  <div class="list-group">
+    <a *ngFor="let item of items" href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi" [ngClass]="{'bi-folder': item.type === 'folder', 'bi-file-earmark': item.type === 'file'}"></i>
+        <span [appTooltip]="item.name">{{ truncateName(item.name) }}</span>
+      </div>
+      <div>
+        <span *ngFor="let owner of item.owners.slice(0, 3)" class="badge bg-primary rounded-pill me-1">{{ owner }}</span>
+        <span *ngIf="item.owners.length > 3" class="badge bg-secondary rounded-pill">+{{ item.owners.length - 3 }}</span>
+        <input type="checkbox" class="ms-2" (change)="toggleSelection(item.id)" [checked]="selectedItems.includes(item.id)">
+      </div>
+    </a>
+  </div>
+  <button class="btn btn-danger mt-3" *ngIf="selectedItems.length > 0" (click)="deleteSelected()">Eliminar seleccionados</button>
+</div>
+
+<app-confirm-dialog
+  *ngIf="showConfirmDialog"
+  [message]="'¿Estás seguro de que quieres eliminar ' + selectedItems.length + ' elementos?'"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()">
+</app-confirm-dialog>

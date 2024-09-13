@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { FileItem } from '../models/file.item.model';
-import { FILE_LIST } from '../data/file.storage';
+import { CommonModule } from '@angular/common';
+import { FileFolderListComponent } from './file-folder-list/file-folder-list.component';
+import { NewItemFormComponent } from './new-item-form/new-item-form.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  imports: [CommonModule, FileFolderListComponent, NewItemFormComponent],
+  template: `
+    <app-file-folder-list (newItemRequested)="showNewItemForm = true"></app-file-folder-list>
+    <app-new-item-form *ngIf="showNewItemForm" (formClosed)="showNewItemForm = false"></app-new-item-form>
+  `,
 })
 export class AppComponent {
-  files: FileItem[] = FILE_LIST;
-  title = 'file-management';
+  showNewItemForm = false;
 }
